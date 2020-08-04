@@ -1,0 +1,12 @@
+R:\Users\User\source\repos\LBAGameChanger\bin\Release\netstandard2.0\LBAGameChanger.deps.json
+R:\Users\User\source\repos\LBAGameChanger\bin\Release\netstandard2.0\LBAGameChanger.dll
+R:\Users\User\source\repos\LBAGameChanger\bin\Release\netstandard2.0\LBAGameChanger.pdb
+R:\Users\User\source\repos\LBAGameChanger\bin\Release\netstandard2.0\LBAMemoryModule.dll
+R:\Users\User\source\repos\LBAGameChanger\bin\Release\netstandard2.0\LBAMemoryModule.pdb
+R:\Users\User\source\repos\LBAGameChanger\obj\Release\netstandard2.0\LBAGameChanger.AssemblyInfoInputs.cache
+R:\Users\User\source\repos\LBAGameChanger\obj\Release\netstandard2.0\LBAGameChanger.AssemblyInfo.cs
+R:\Users\User\source\repos\LBAGameChanger\obj\Release\netstandard2.0\LBAGameChanger.csproj.CoreCompileInputs.cache
+R:\Users\User\source\repos\LBAGameChanger\obj\Release\netstandard2.0\LBAGameChanger.csproj.CopyComplete
+R:\Users\User\source\repos\LBAGameChanger\obj\Release\netstandard2.0\LBAGameChanger.dll
+R:\Users\User\source\repos\LBAGameChanger\obj\Release\netstandard2.0\LBAGameChanger.pdb
+R:\Users\User\source\repos\LBAGameChanger\obj\Release\netstandard2.0\LBAGameChanger.csprojAssemblyReference.cache
