@@ -1,9 +1,13 @@
-﻿using LBAMemoryModule;
+﻿#define DEBUG
+
+using LBAMemoryModule;
 using System;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Windows.Forms;
+using WindowsInput;
+using WindowsInput.Native;
 
 namespace LBAGameChanger
 {
@@ -19,12 +23,14 @@ namespace LBAGameChanger
         [DllImport("user32.dll")]
         private static extern IntPtr GetForegroundWindow();
         [DllImport("user32.dll")]
-        static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
+        static extern bool SetForegroundWindow(IntPtr hWnd);
         [DllImport("user32.dll", SetLastError = true)]
         static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
-        Mem m = new Mem();
+        public Mem m = new Mem();
         Items items;
         enum LBA1Offsets : uint { FlagByteOne = 0xD54C, FlagByteTwo = 0xD54D, Armour = 0xD500 }
+        const uint LBA1_BEHAVIOUR = 0xE08;
+        public const uint LBA1_HEALTH = 0xD554;
         public LBAGameChanger(string filesPath, ushort LBAVer)
         {
             items = new Items(filesPath, LBAVer);
@@ -32,10 +38,11 @@ namespace LBAGameChanger
 
         private string processSkinCommand(string command)
         {
+            if ("give tunic" == command && 2 > getChapter()) return null;
             string val;
             if ((val = replaceIfContains(command, "tunic_sword", "2")) != null) return val;
             if ((val = replaceIfContains(command, "tunic_med", "0")) != null) return val;
-            if ((val = replaceIfContains(command, "tunic_horn", "5")) != null) return val;
+            //if ((val = replaceIfContains(command, "tunic_horn", "5")) != null) return val; //Crashes on behaviour switch due to no behaviour defined
             if ((val = replaceIfContains(command, "tunic", "1")) != null) return val;
             if ((val = replaceIfContains(command, "prison", "3")) != null) return val;
             if ((val = replaceIfContains(command, "nurse", "4")) != null) return val;
@@ -44,8 +51,9 @@ namespace LBAGameChanger
         private string processChangeWeaponCommand(string command)
         {
             string val;
-            if ((val = replaceIfContains(command, "magic_ball", "0")) != null) return val;
-            if ((val = replaceIfContains(command, "funfrocks_saber", "1")) != null) return val;
+            if ((val = replaceIfContains(command, "ball", "0")) != null) return val;
+            if ((val = replaceIfContains(command, "sabre", "1")) != null) return val;
+            if ((val = replaceIfContains(command, "saber", "1")) != null) return val;
             return null;
         }
 
@@ -166,13 +174,16 @@ namespace LBAGameChanger
         private byte getChapter()
         {
             const uint LBA1_CHAPTER = 0xE28;
-            return (byte) m.readVal(LBA1_CHAPTER, 1);
+            return (byte)m.readVal(LBA1_CHAPTER, 1);
         }
 
         private bool isLBA1FocusWindow()
         {
-            const int nChars = 256;
-            StringBuilder Buff = new StringBuilder(nChars);
+/*#if DEBUG
+            SetForegroundWindow(Process.GetProcessesByName("DOSBox")[0].MainWindowHandle);
+            System.Threading.Thread.Sleep(1000);
+            return true;
+#endif*/
             IntPtr handle = GetForegroundWindow();
             uint processID;
             GetWindowThreadProcessId(handle, out processID);
@@ -180,21 +191,78 @@ namespace LBAGameChanger
                 return true;
             return false;
         }
+        private bool isZoomOn()
+        {
+            return 1 == m.readVal(0xDE4, 1);
+        }
 
-        private void Zoom()
+        private string processZoom(string command)
+        {
+            string s = "set zoom";
+            if(command.StartsWith(s))
+                command = removeCommandPortion(command, "set zoom");
+            bool isZoomOn = this.isZoomOn();
+            if (command == "on")
+            {
+                if (!isZoomOn) SendKey("{F5}");
+            }
+            if (command == "off")
+            {
+                if (isZoomOn) SendKey("{F5}");
+            }
+            return null;
+        }
+
+        private string SendKey(string key)
         {
             if (isLBA1FocusWindow())
-                SendKeys.SendWait("{F5}");
-            SendKeys.Flush();
+            {
+                SendKeys.SendWait(key);
+                SendKeys.Flush();
+            }
+            return null;
         }
+        private uint getBehaviour()
+        {
+            return (uint)m.readVal(LBA1_BEHAVIOUR, 1);
+        }
+        private string processBehaviourCommand(string command)
+        {
+            uint behaviour = getBehaviour();
+            command = command.Replace("behavior", "behaviour");
+            command = removeCommandPortion(command, "set behaviour");
+            if ("normal" == command && 0 != behaviour)
+                return SendKey("{F1}");
+            if ("athletic" == command && 1 != behaviour)
+                return SendKey("{F2}");
+            if ("aggressive" == command && 2 != behaviour)
+                return SendKey("{F3}");
+            if ("discreet" == command && 3 != behaviour)
+                return SendKey("{F4}");
+            return null;
+        }
+
+        private string processHealthCommand(string command)
+        {
+            if(m.readVal(LBA1_HEALTH, 1) <= 0) return null;
+            return command;
+        }
+
         private string preprocessCommand(string command)
         {
+            //Convert command to lower case
             string normalisedCommand = command.ToLower();
-            if (command.ToLower().Contains("zoom")) Zoom();
-            if ("give tunic" == command) if (2 > getChapter()) return null;
+            //Health fix
+            if (command.Contains("health"))
+                return processHealthCommand(command);
+            //Toggle Zoom
+            if (command.Contains("zoom")) return processZoom(command);
+            //Give tunic - checks we're in a valid chapter i.e. it won't break anything
+            if (normalisedCommand.Contains("behaviour"))
+                return processBehaviourCommand(normalisedCommand);
             if (normalisedCommand.Contains("skin"))
                 return processSkinCommand(normalisedCommand);
-            if (normalisedCommand.Contains("selected_weapon"))
+            if (normalisedCommand.Contains("weapon"))
                 return processChangeWeaponCommand(normalisedCommand);
             if (normalisedCommand.Contains("obj_col"))
                 return processFlagByteOne(normalisedCommand);
@@ -255,13 +323,13 @@ namespace LBAGameChanger
             x = Get_Item(intNamVal.internalName);
             if (null == x) return null;
             command = removeCommandPortion(command, intNamVal.internalName);
-            if ("max" == command)
+            if ("max" == command || "on" == command)
             {
                 intNamVal.value = x.maxVal;
                 return intNamVal;
             }
 
-            if ("min" == command)
+            if ("min" == command || "off" == command)
             {
                 intNamVal.value = x.minVal;
                 return intNamVal;
@@ -280,7 +348,7 @@ namespace LBAGameChanger
         }
         private string removeCommandPortion(string commandString, string portionToRemove)
         {
-            return commandString.Remove(0, portionToRemove.Length + 1).Trim();
+            return commandString.Remove(0, portionToRemove.Length).Trim();
         }
         private bool setInventoryUsedFlag(string internalName)
         {
@@ -310,13 +378,18 @@ namespace LBAGameChanger
                     return;
                 }
             }
+            item = items.getQuestItem(internalName);
+            if (null != item) setItem(item, val);
         }
 
         public Item Get_Item(string internalName)
         {
             Item x = items.getTwinsenItem(internalName);
             if (null != x) return x;
-            return items.getInventoryItem(internalName);
+            x = items.getInventoryItem(internalName);
+            if (null != x) return x;
+            x = items.getQuestItem(internalName);
+            return x;
         }
 
         private void setItem(Item x, ushort val)
@@ -327,7 +400,11 @@ namespace LBAGameChanger
             m = new Mem();
             m.WriteVal(x.memoryOffset, val, x.size);
         }
-
+        private void blob()
+        {
+            //WindowsInput.Simulate wis = new WindowsInput.Simulate();
+            
+        }
     }
 
     public class InternalNameValue

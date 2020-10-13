@@ -1,11 +1,23 @@
 {
   "version": 2,
-  "dgSpecHash": "JoTUnf3VowsE+1w+BHZ+v1ERlxZfjvFKCdc7noItA6oVWgBGPQb8savGbm3ABbnmmm2lS+51gjRwbZYAbNWZvg==",
+  "dgSpecHash": "+P2MNZn6fRkhRRbpGHbISqfOAupIBV/wKMYl+bmrf617Bx0Z5yN44NQLZUbSDvp1ZLzvTnUpzDwnsyfHJAYLDw==",
   "success": true,
   "projectFilePath": "R:\\Users\\User\\source\\repos\\LBAGameChanger\\LBAGameChanger.csproj",
   "expectedPackageFiles": [
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\windowsinput\\6.1.1\\windowsinput.6.1.1.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'WindowsInput 6.1.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
+      "libraryId": "WindowsInput",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    }
+  ]
 }

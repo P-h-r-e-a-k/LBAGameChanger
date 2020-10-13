@@ -25,6 +25,15 @@
         "build": {
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
+      },
+      "WindowsInput/6.1.1": {
+        "type": "package",
+        "compile": {
+          "lib/net461/WindowsInput.dll": {}
+        },
+        "runtime": {
+          "lib/net461/WindowsInput.dll": {}
+        }
       }
     }
   },
@@ -171,11 +180,28 @@
         "netstandard.library.2.0.3.nupkg.sha512",
         "netstandard.library.nuspec"
       ]
+    },
+    "WindowsInput/6.1.1": {
+      "sha512": "LNx7Wwv3x/Sj/ho0+BZTVWmIrhPcJp+XwQTeRQRagpNXmZ0sU6z0XYPpvt6JzINnrsypKg3wQuAKy/D8WGWDJA==",
+      "type": "package",
+      "path": "windowsinput/6.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "content/.nuget/mouse-keyboard-hook-logo.png",
+        "contentFiles/any/net461/.nuget/mouse-keyboard-hook-logo.png",
+        "lib/net461/WindowsInput.dll",
+        "mouse-keyboard-hook-logo.png",
+        "windowsinput.6.1.1.nupkg.sha512",
+        "windowsinput.nuspec"
+      ]
     }
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
-      "NETStandard.Library >= 2.0.3"
+      "NETStandard.Library >= 2.0.3",
+      "WindowsInput >= 6.1.1"
     ]
   },
   "packageFolders": {
@@ -224,6 +250,10 @@
             "target": "Package",
             "version": "[2.0.3, )",
             "autoReferenced": true
+          },
+          "WindowsInput": {
+            "target": "Package",
+            "version": "[6.1.1, )"
           }
         },
         "imports": [
@@ -236,8 +266,20 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.400\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'WindowsInput 6.1.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
+      "libraryId": "WindowsInput",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    }
+  ]
 }

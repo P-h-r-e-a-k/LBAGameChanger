@@ -5,7 +5,6 @@ R:\Users\User\source\repos\LBAGameChanger\bin\Debug\netstandard2.0\LBAMemoryModu
 R:\Users\User\source\repos\LBAGameChanger\bin\Debug\netstandard2.0\LBAMemoryModule.pdb
 R:\Users\User\source\repos\LBAGameChanger\obj\Debug\netstandard2.0\LBAGameChanger.AssemblyInfoInputs.cache
 R:\Users\User\source\repos\LBAGameChanger\obj\Debug\netstandard2.0\LBAGameChanger.AssemblyInfo.cs
-R:\Users\User\source\repos\LBAGameChanger\obj\Debug\netstandard2.0\LBAGameChanger.csproj.CoreCompileInputs.cache
 R:\Users\User\source\repos\LBAGameChanger\obj\Debug\netstandard2.0\LBAGameChanger.csproj.CopyComplete
 R:\Users\User\source\repos\LBAGameChanger\obj\Debug\netstandard2.0\LBAGameChanger.dll
 R:\Users\User\source\repos\LBAGameChanger\obj\Debug\netstandard2.0\LBAGameChanger.pdb
@@ -22,3 +21,4 @@ R:\Users\User\source\repos\LBAGameChanger\bin\Debug\netstandard2.0\System.Config
 R:\Users\User\source\repos\LBAGameChanger\bin\Debug\netstandard2.0\Accessibility.xml
 R:\Users\User\source\repos\LBAGameChanger\bin\Debug\netstandard2.0\System.Deployment.xml
 R:\Users\User\source\repos\LBAGameChanger\bin\Debug\netstandard2.0\System.Runtime.Serialization.Formatters.Soap.xml
+R:\Users\User\source\repos\LBAGameChanger\obj\Debug\netstandard2.0\LBAGameChanger.csproj.CoreCompileInputs.cache

@@ -17,10 +17,7 @@ namespace LBAGameChanger
         private Item[] Inventory;
         private Item[] InventoryUsed;
         private Item[] Twinsen;
-        private Item[] Item;
-        //public Item[] Flags;
-        //public Item[] Quest;
-        //private string LBAFilesPath;
+        public Item[] Quest;
         Mem m = new Mem();
 
         public Items(string LBAFilesPath, ushort LBAVer)
@@ -30,6 +27,7 @@ namespace LBAGameChanger
             Twinsen = loadItems(fullFilePath, "//Twinsen/item");
             Inventory = loadItems(fullFilePath, "//inventory/item");
             InventoryUsed = loadItems(fullFilePath, "//inventoryUsed/item");
+            Quest = loadItems(LBAFilesPath + "Quests.xml", "//quests/item");
         }
         private string getFilesDirectroyPath()
         {
@@ -85,6 +83,11 @@ namespace LBAGameChanger
         public Item getInventoryUsedItem(string name)
         {
             return getItemFromName(name, InventoryUsed);
+        }
+
+        public Item getQuestItem(string name)
+        {
+            return getItemFromName(name, Quest);
         }
     }
 }
